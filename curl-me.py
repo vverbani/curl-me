@@ -18,11 +18,13 @@ def make_requests(range_count, url, payload, headers, request_count):
         respone = requests.get(url,data=payload,headers=headers)
         print(respone)
         request_count += 1
+    # TO DO: Replace this so it prints one total versus one total per thread
     print('Called', request_count,'many times. It took', timer() - start,'long!')
 
 # Main function to retrieve user input then call the request function
 def main(argv):
 
+    # TO-DO: Make workers a user input argument rather then static variable
     # Initialize variables
     url, payload, headers, method, request_count, range_count, workers= '', '', '', '', 1, 10, 3
 
@@ -43,7 +45,6 @@ def main(argv):
         elif opt in ('-u', '--url'):
             # TO-DO: Add use cases to verify that URL added is indeed a proper
             url= arg if arg != ''  else sys.exit('Please enter an API URL')
-            # print(url)
         elif opt in ('-r', '--range'):
             if(arg.isnumeric()):
                 range_count= int(arg)
@@ -56,6 +57,7 @@ def main(argv):
         elif opt in ('-m', '--method'):
             method= arg.lower()
 
+    # TO-DO: Find a better spot for this
     range_count = correct_requests(range_count, workers)
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
